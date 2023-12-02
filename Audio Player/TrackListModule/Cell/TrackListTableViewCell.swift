@@ -16,11 +16,7 @@ final class TrackListTableViewCell: UITableViewCell {
         titltLabel.text = nil
         durationLabel.text = nil
     }
-
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
+    
     func configureCell(_ data: Track) {
         titltLabel.text = data.artist + " - " + data.title
         durationLabel.text = data.duration
