@@ -67,7 +67,37 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lHr-pc-1Da" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="122.90076335877862" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="343" y="-2"/>
+        </scene>
+        <!--Player View Controller-->
+        <scene sceneID="tHt-Qg-h4z">
+            <objects>
+                <viewController storyboardIdentifier="player" id="A9Q-Sh-Hjz" customClass="PlayerViewController" customModule="Audio_Player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OLh-4b-ICj">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLT-Cz-iYh" customClass="PlayerView" customModule="Audio_Player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Huh-1D-NpQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Huh-1D-NpQ" firstAttribute="trailing" secondItem="yLT-Cz-iYh" secondAttribute="trailing" id="Kc4-3M-d7q"/>
+                            <constraint firstItem="yLT-Cz-iYh" firstAttribute="top" secondItem="Huh-1D-NpQ" secondAttribute="top" id="Rqb-5Z-vWg"/>
+                            <constraint firstItem="Huh-1D-NpQ" firstAttribute="bottom" secondItem="yLT-Cz-iYh" secondAttribute="bottom" id="lBz-a1-b9B"/>
+                            <constraint firstItem="yLT-Cz-iYh" firstAttribute="leading" secondItem="Huh-1D-NpQ" secondAttribute="leading" id="ve8-Yf-e2g"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="playerView" destination="yLT-Cz-iYh" id="LFc-KF-NXg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pJV-GH-9ne" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1729" y="-2"/>
         </scene>
     </scenes>
     <resources>

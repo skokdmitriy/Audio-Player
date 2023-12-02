@@ -73,5 +73,15 @@ extension TrackListViewController: UITableViewDataSource {
 
 extension TrackListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let currentTrackIndex = indexPath.row
+        guard let playerVC = storyboard?.instantiateViewController(identifier: "player") as? PlayerViewController else {
+            return
+        }
+        AudioPlayerService.shared.tracks = viewModel.tracks
+        let navigationController = UINavigationController(rootViewController: playerVC)
+        playerVC.currentTrackIndex = currentTrackIndex
+        present(navigationController, animated: true)
     }
 }
