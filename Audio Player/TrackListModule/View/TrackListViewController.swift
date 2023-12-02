@@ -24,7 +24,8 @@ final class TrackListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        viewModel = TrackListViewModel()
+        super.init(coder: coder)
     }
     
     // MARK: - Lifecycle
