@@ -8,10 +8,19 @@
 import Foundation
 
 final class TrackListViewModel {
+    // MARK: - Properties
 
-    var tracks = [Track]()
+    var tracks: [Track] = []
+    
+    // MARK: - Initialization
 
     init() {
+        appendTrack()
+    }
+
+    // MARK: - Private functions
+
+    private func appendTrack() {
         tracks.append(Track(title: "No Roots",
                             artist: "Alice Merton",
                             duration: "03:56",
