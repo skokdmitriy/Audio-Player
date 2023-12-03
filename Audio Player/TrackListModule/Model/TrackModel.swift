@@ -11,5 +11,5 @@ struct Track {
     let title: String
     let artist: String
     let duration: String
-    let fileURL: URL
+    let trackName: String
 }

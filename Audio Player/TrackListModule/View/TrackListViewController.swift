@@ -58,7 +58,6 @@ extension TrackListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackListTableViewCell else {
             return UITableViewCell()
         }
-
         let track = viewModel.tracks[indexPath.row]
         cell.configureCell(track)
         return cell
@@ -73,5 +72,14 @@ extension TrackListViewController: UITableViewDataSource {
 
 extension TrackListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        AudioPlayerService.shared.tracks = viewModel.tracks
+        let currentTrackIndex = indexPath.row
+        let track = viewModel.tracks[indexPath.row]
+        let playerVC = PlayerAssembly.build(currentTrackIndex: currentTrackIndex,
+                                            track: track
+        )
+        navigationController?.show(playerVC, sender: self)
     }
+
 }
