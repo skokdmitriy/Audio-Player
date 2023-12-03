@@ -9,16 +9,16 @@ import UIKit
 
 final class TrackListTableViewCell: UITableViewCell {
 
-    @IBOutlet var titltLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var durationLabel: UILabel!
 
     override func prepareForReuse() {
-        titltLabel.text = nil
+        titleLabel.text = nil
         durationLabel.text = nil
     }
     
     func configureCell(_ data: Track) {
-        titltLabel.text = data.artist + " - " + data.title
+        titleLabel.text = data.artist + " - " + data.title
         durationLabel.text = data.duration
     }
 }
