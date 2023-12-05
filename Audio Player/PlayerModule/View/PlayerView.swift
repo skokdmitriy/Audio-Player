@@ -150,11 +150,13 @@ final class PlayerView: UIView{
     }
 
     @objc private func didTapPlayButton() {
-        if player.player?.isPlaying == true {
+        if player.isPlaying == true {
             player.player?.pause()
+            player.isPlaying = false
             playButton.setImage(UIImage(systemName: "play"), for: .normal)
         } else {
             player.player?.play()
+            player.isPlaying = true
             playButton.setImage(UIImage(systemName: "pause"), for: .normal)
         }
     }
