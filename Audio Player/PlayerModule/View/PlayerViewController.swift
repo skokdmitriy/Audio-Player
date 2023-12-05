@@ -22,7 +22,7 @@ final class PlayerViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -40,7 +40,7 @@ final class PlayerViewController: UIViewController {
 
         configure()
         playTrack(index: viewModel.currentTrackIndex)
-        createTimer()
+        time()
     }
 
     private func playTrack(index: Int) {
@@ -57,18 +57,26 @@ final class PlayerViewController: UIViewController {
         playerView.durationTimeLabel.text = viewModel.track.duration
     }
 
-    private func createTimer() {
-        trackTimer = Timer.scheduledTimer(timeInterval: 0.1,
-                             target: self,
-                             selector: #selector(updateProgressView),
-                             userInfo: nil,
-                             repeats: true
-        )
-    }
+    func time () {
+        let interval = CMTime(value: 1, timescale: 1000)
+        player.player?.addPeriodicTimeObserver(forInterval: interval,
+                                               queue: DispatchQueue.main
+        ) { [weak self] time in
+            guard let self else {
+                return
+            }
+            let minutes = time.seconds / 60
+            let seconds = Int(time.seconds) % 60
+            let minutesString = String(format: "%02d", Int(minutes))
+            let secondsString = String(format: "%02d", Int(seconds))
+            self.playerView.currentTimeLabel.text = "\(minutesString):\(secondsString)"
 
-    @objc private func updateProgressView() {
-        let totalTime = player.durationTrack
-        let progress = Float(0.1 / totalTime)
-        playerView.trackProgress.progress += progress
+            if let duration = player.player?.currentItem?.duration {
+                let durationSeconds = CMTimeGetSeconds(duration)
+                let progressSeconds = CMTimeGetSeconds(time)
+                let progress = Float(progressSeconds / durationSeconds)
+                self.playerView.trackProgress.progress = progress
+            }
+        }
     }
 }
