@@ -6,10 +6,26 @@
 //
 
 import UIKit
-import AVFoundation
 
 final class PlayerView: UIView{
     // MARK: - Views
+
+    lazy var closeButtonView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        view.addSubview(closeButton)
+        return view
+    }()
+
+    lazy var closeButton: UIButton = {
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = "Close"
+        configuration.image = UIImage(systemName: "xmark")
+        configuration.imagePadding = 3
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        button.configuration = configuration
+        button.tintColor = .systemBlue
+        return button
+    }()
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +83,6 @@ final class PlayerView: UIView{
         let button = UIButton()
         button.setImage(UIImage(systemName: "pause"), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapPlayButton), for: .touchUpInside)
         return button
     }()
 
@@ -75,7 +90,6 @@ final class PlayerView: UIView{
         let button = UIButton()
         button.setImage(UIImage(systemName: "forward.end"), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         return button
     }()
 
@@ -83,7 +97,6 @@ final class PlayerView: UIView{
         let button = UIButton()
         button.setImage(UIImage(systemName: "backward.end"), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return button
     }()
 
@@ -99,16 +112,13 @@ final class PlayerView: UIView{
         return stackView
     }()
 
-    // MARK: - Private properties
-
-    private let player = AudioPlayerService.shared
-
     // MARK: - Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupView()
+        setupLayout()
+        backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -117,7 +127,7 @@ final class PlayerView: UIView{
 
     // MARK: - Private functions
 
-    private func setupView() {
+    private func setupLayout() {
         addSubview(titleStackView)
         addSubview(currentTimeLabel)
         addSubview(durationTimeLabel)
@@ -147,25 +157,5 @@ final class PlayerView: UIView{
             buttonStackView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             buttonStackView.topAnchor.constraint(equalTo: trackProgress.bottomAnchor, constant: 20)
         ])
-    }
-
-    @objc private func didTapPlayButton() {
-        if player.isPlaying == true {
-            player.player?.pause()
-            player.isPlaying = false
-            playButton.setImage(UIImage(systemName: "play"), for: .normal)
-        } else {
-            player.player?.play()
-            player.isPlaying = true
-            playButton.setImage(UIImage(systemName: "pause"), for: .normal)
-        }
-    }
-
-    @objc private func didTapNextButton() {
-        player.nextTrack()
-    }
-
-    @objc private func didTapBackButton() {
-        player.backTrack()
     }
 }

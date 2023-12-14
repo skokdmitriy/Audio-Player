@@ -10,11 +10,19 @@ import UIKit
 final class TrackListViewController: UIViewController {
     // MARK: - Views
 
-    @IBOutlet var table: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableview = UITableView()
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.register(TrackListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableview.backgroundColor = .white
+        tableview.translatesAutoresizingMaskIntoConstraints = false
+        return tableview
+    }()
 
     // MARK: - Private properties
 
-    private let viewModel: TrackListViewModel
+    private var viewModel: TrackListViewModel
 
     // MARK: - Initialization
 
@@ -22,28 +30,37 @@ final class TrackListViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
-        viewModel = TrackListViewModel()
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupTable()
+        configureLayout()
+        configure()
     }
 
     // MARK: - Private functions
 
-    private func setupTable() {
-        table.dataSource = self
-        table.delegate = self
-        table.register(UINib(nibName: "TrackListTableViewCell", bundle: nil),
-                       forCellReuseIdentifier: "cell"
-        )
+    private func configure() {
+        title = "Music"
+        navigationItem.backButtonTitle = "Close"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    private func configureLayout() {
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 }
 
@@ -53,7 +70,7 @@ extension TrackListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.tracks.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackListTableViewCell else {
             return UITableViewCell()
@@ -73,13 +90,6 @@ extension TrackListViewController: UITableViewDataSource {
 extension TrackListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        AudioPlayerService.shared.tracks = viewModel.tracks
-        let currentTrackIndex = indexPath.row
-        let track = viewModel.tracks[indexPath.row]
-        let playerVC = PlayerAssembly.build(currentTrackIndex: currentTrackIndex,
-                                            track: track
-        )
-        navigationController?.show(playerVC, sender: self)
+        viewModel.tapOnTrack(indexPath: indexPath)
     }
-
 }
