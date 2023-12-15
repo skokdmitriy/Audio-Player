@@ -6,22 +6,38 @@
 //
 
 import UIKit
-import AVFoundation
 
 final class PlayerView: UIView{
     // MARK: - Views
 
+    lazy var closeButtonView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        view.addSubview(closeButton)
+        return view
+    }()
+
+    lazy var closeButton: UIButton = {
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = Title.close
+        configuration.image = UIImage(systemName: Images.xmark)
+        configuration.imagePadding = 3
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        button.configuration = configuration
+        button.tintColor = .systemBlue
+        return button
+    }()
+
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        label.font = Fonts.helveticaNeueBold
         return label
     }()
 
     lazy var artistLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "HelveticaNeue", size: 16)
+        label.font = Fonts.helveticaNeue
         return label
     }()
 
@@ -38,7 +54,6 @@ final class PlayerView: UIView{
 
     lazy var currentTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +62,6 @@ final class PlayerView: UIView{
 
     lazy var durationTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,25 +79,22 @@ final class PlayerView: UIView{
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "pause"), for: .normal)
+        button.setImage(UIImage(systemName: Images.pause), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapPlayButton), for: .touchUpInside)
         return button
     }()
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "forward.end"), for: .normal)
+        button.setImage(UIImage(systemName: Images.forward), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         return button
     }()
 
     lazy var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "backward.end"), for: .normal)
+        button.setImage(UIImage(systemName: Images.backward), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return button
     }()
 
@@ -99,16 +110,13 @@ final class PlayerView: UIView{
         return stackView
     }()
 
-    // MARK: - Private properties
-
-    private let player = AudioPlayerService.shared
-
     // MARK: - Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupView()
+        setupLayout()
+        backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -117,7 +125,7 @@ final class PlayerView: UIView{
 
     // MARK: - Private functions
 
-    private func setupView() {
+    private func setupLayout() {
         addSubview(titleStackView)
         addSubview(currentTimeLabel)
         addSubview(durationTimeLabel)
@@ -147,25 +155,5 @@ final class PlayerView: UIView{
             buttonStackView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             buttonStackView.topAnchor.constraint(equalTo: trackProgress.bottomAnchor, constant: 20)
         ])
-    }
-
-    @objc private func didTapPlayButton() {
-        if player.isPlaying == true {
-            player.player?.pause()
-            player.isPlaying = false
-            playButton.setImage(UIImage(systemName: "play"), for: .normal)
-        } else {
-            player.player?.play()
-            player.isPlaying = true
-            playButton.setImage(UIImage(systemName: "pause"), for: .normal)
-        }
-    }
-
-    @objc private func didTapNextButton() {
-        player.nextTrack()
-    }
-
-    @objc private func didTapBackButton() {
-        player.backTrack()
     }
 }
