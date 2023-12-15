@@ -9,13 +9,18 @@ import Foundation
 import Combine
 
 final class PlayerViewModel {
+    // MARK: - Properties
 
-    private let router: PlayerRouter
-    private let playerService = PlayerService.shared
     var tracks: [Track] = []
     var track: Track
     var currentTrackIndex: Int
 
+    // MARK: - Private properties
+
+    private let router: PlayerRouter
+    private let playerService = PlayerService.shared
+
+    // MARK: - Initialization
 
     init(router: PlayerRouter, currentTrackIndex: Int, track: Track) {
         self.router = router
@@ -23,6 +28,8 @@ final class PlayerViewModel {
         self.track = track
         play()
     }
+
+    // MARK: - Functions
 
     func play() {
         guard playerService.trackIndex != currentTrackIndex else {
@@ -36,18 +43,17 @@ final class PlayerViewModel {
         if playerService.isPlaying == true {
             playerService.player?.pause()
             playerService.isPlaying = false
-            return "play"
+            return Images.play
         } else {
             playerService.player?.play()
             playerService.isPlaying = true
-            return "pause"
+            return Images.pause
         }
     }
 
     func nextTrack() {
         if currentTrackIndex < (tracks.count - 1) {
             currentTrackIndex += 1
-            print(currentTrackIndex)
             track = tracks[currentTrackIndex]
             play()
         } else {
@@ -55,7 +61,6 @@ final class PlayerViewModel {
             track = tracks[currentTrackIndex]
             play()
         }
-
     }
 
     func backTrack() {

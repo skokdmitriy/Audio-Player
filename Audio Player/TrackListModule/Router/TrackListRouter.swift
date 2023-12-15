@@ -5,7 +5,7 @@
 //  Created by Дмитрий Скок on 12.12.2023.
 //
 
-import UIKit
+import UIKit.UIViewController
 
 final class TrackListRouter {
     weak var viewController: UIViewController?

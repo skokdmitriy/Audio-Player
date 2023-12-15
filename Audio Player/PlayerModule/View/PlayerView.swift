@@ -18,8 +18,8 @@ final class PlayerView: UIView{
 
     lazy var closeButton: UIButton = {
         var configuration = UIButton.Configuration.plain()
-        configuration.title = "Close"
-        configuration.image = UIImage(systemName: "xmark")
+        configuration.title = Title.close
+        configuration.image = UIImage(systemName: Images.xmark)
         configuration.imagePadding = 3
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         button.configuration = configuration
@@ -30,14 +30,14 @@ final class PlayerView: UIView{
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        label.font = Fonts.helveticaNeueBold
         return label
     }()
 
     lazy var artistLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "HelveticaNeue", size: 16)
+        label.font = Fonts.helveticaNeue
         return label
     }()
 
@@ -54,7 +54,6 @@ final class PlayerView: UIView{
 
     lazy var currentTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +62,6 @@ final class PlayerView: UIView{
 
     lazy var durationTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,21 +79,21 @@ final class PlayerView: UIView{
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "pause"), for: .normal)
+        button.setImage(UIImage(systemName: Images.pause), for: .normal)
         button.tintColor = .systemBlue
         return button
     }()
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "forward.end"), for: .normal)
+        button.setImage(UIImage(systemName: Images.forward), for: .normal)
         button.tintColor = .systemBlue
         return button
     }()
 
     lazy var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "backward.end"), for: .normal)
+        button.setImage(UIImage(systemName: Images.backward), for: .normal)
         button.tintColor = .systemBlue
         return button
     }()

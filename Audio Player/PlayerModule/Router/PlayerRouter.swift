@@ -5,7 +5,7 @@
 //  Created by Дмитрий Скок on 14.12.2023.
 //
 
-import UIKit
+import UIKit.UIViewController
 
 final class PlayerRouter {
     weak var viewController: UIViewController?

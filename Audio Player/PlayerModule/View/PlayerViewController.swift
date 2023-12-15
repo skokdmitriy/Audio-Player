@@ -16,12 +16,6 @@ final class PlayerViewController: UIViewController {
     private let viewModel: PlayerViewModel
     private var subscriptions = Set<AnyCancellable>()
 
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("close", for: .normal)
-        return button
-    }()
-
     // MARK: - Initialization
 
     init(viewModel: PlayerViewModel) {
@@ -55,9 +49,6 @@ final class PlayerViewController: UIViewController {
     private func configureNavigationBar() {
         let closeButton = UIBarButtonItem(customView: playerView.closeButtonView)
         navigationItem.leftBarButtonItem = closeButton
-        playerView.closeButton.addTarget(self,
-                                         action: #selector(didTapСloseButton),
-                                         for: .touchUpInside)
     }
 
     private func configure() {
@@ -87,16 +78,30 @@ final class PlayerViewController: UIViewController {
         playerService.isTrackEnded
             .sink { boolValue in
                 if boolValue {
-                    self.didTapNextButton()
+                    self.viewModel.nextTrack()
+                    self.configure()
                 }
             }
             .store(in: &subscriptions)
     }
 
     private func addTarget() {
-        playerView.playButton.addTarget(self, action: #selector(didTapPlayButton), for: .touchUpInside)
-        playerView.nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
-        playerView.backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        playerView.playButton.addTarget(self,
+                                        action: #selector(didTapPlayButton),
+                                        for: .touchUpInside
+        )
+        playerView.nextButton.addTarget(self,
+                                        action: #selector(didTapNextButton),
+                                        for: .touchUpInside
+        )
+        playerView.backButton.addTarget(self,
+                                        action: #selector(didTapBackButton),
+                                        for: .touchUpInside
+        )
+        playerView.closeButton.addTarget(self,
+                                         action: #selector(didTapСloseButton),
+                                         for: .touchUpInside
+        )
     }
 
     @objc private func didTapСloseButton() {
@@ -110,13 +115,12 @@ final class PlayerViewController: UIViewController {
     @objc private func didTapNextButton() {
         viewModel.nextTrack()
         configure()
-        playerView.playButton.setImage(UIImage(systemName: "pause"), for: .normal)
-
+        playerView.playButton.setImage(UIImage(systemName: Images.pause), for: .normal)
     }
 
     @objc private func didTapBackButton() {
         viewModel.backTrack()
         configure()
-        playerView.playButton.setImage(UIImage(systemName: "pause"), for: .normal)
+        playerView.playButton.setImage(UIImage(systemName: Images.pause), for: .normal)
     }
 }

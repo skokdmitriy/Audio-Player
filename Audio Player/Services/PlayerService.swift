@@ -31,10 +31,11 @@ final class PlayerService {
         player?.play()
         isPlaying = true
         isTrackEnded.send(false)
-        progressTime()
+        currentTimeTrack()
+        progressTrack()
     }
 
-    private func progressTime() {
+    private func currentTimeTrack() {
         let interval = CMTime(value: 1, timescale: 1000)
         player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
             guard let self else {
@@ -42,19 +43,26 @@ final class PlayerService {
             }
             let minutes = time.seconds / 60
             let seconds = Int(time.seconds) % 60
-            let minutesString = String(format: "%02d", Int(minutes))
-            let secondsString = String(format: "%02d", Int(seconds))
+            let minutesString = String(format: Constants.formatTime, Int(minutes))
+            let secondsString = String(format: Constants.formatTime, Int(seconds))
             self.currentTime = "\(minutesString):\(secondsString)"
+        })
+    }
 
-            if let duration = player?.currentItem?.duration {
-                let durationSeconds = CMTimeGetSeconds(duration)
-                let progressSeconds = CMTimeGetSeconds(time)
-                self.progress = Float(progressSeconds / durationSeconds)
-
-                if durationSeconds == progressSeconds {
-                    self.isTrackEnded.send(true)
-
-                }
+    private func progressTrack() {
+        let interval = CMTime(value: 1, timescale: 1000)
+        player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time in
+            guard let self else {
+                return
+            }
+            guard let duration = player?.currentItem?.duration else {
+                return
+            }
+            let durationSeconds = CMTimeGetSeconds(duration)
+            let progressSeconds = CMTimeGetSeconds(time)
+            self.progress = Float(progressSeconds / durationSeconds)
+            if durationSeconds == progressSeconds {
+                self.isTrackEnded.send(true)
             }
         })
     }

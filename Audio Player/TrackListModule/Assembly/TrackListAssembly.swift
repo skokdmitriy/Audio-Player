@@ -5,7 +5,7 @@
 //  Created by Дмитрий Скок on 13.12.2023.
 //
 
-import UIKit
+import UIKit.UIViewController
 
 final class TrackListAssembly {
     static func build() -> UIViewController {

@@ -11,6 +11,7 @@
 		2C06ED542B29FD4A00C44223 /* TrackListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C06ED532B29FD4A00C44223 /* TrackListAssembly.swift */; };
 		2C06ED5E2B2B5AD800C44223 /* PlayerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C06ED5D2B2B5AD800C44223 /* PlayerRouter.swift */; };
 		2C06ED612B2B751000C44223 /* track5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C06ED602B2B751000C44223 /* track5.mp3 */; };
+		2C06ED632B2C41AB00C44223 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C06ED622B2C41AB00C44223 /* Constants.swift */; };
 		2C0E86B82B1C42970067E7BE /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E86B72B1C42970067E7BE /* PlayerViewModel.swift */; };
 		2C0E86BA2B1C541E0067E7BE /* PlayerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E86B92B1C541E0067E7BE /* PlayerAssembly.swift */; };
 		2C463D642B24CB69002FC3BF /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C463D632B24CB69002FC3BF /* PlayerService.swift */; };
@@ -34,6 +35,7 @@
 		2C06ED532B29FD4A00C44223 /* TrackListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListAssembly.swift; sourceTree = "<group>"; };
 		2C06ED5D2B2B5AD800C44223 /* PlayerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRouter.swift; sourceTree = "<group>"; };
 		2C06ED602B2B751000C44223 /* track5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = track5.mp3; sourceTree = "<group>"; };
+		2C06ED622B2C41AB00C44223 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2C0E86B72B1C42970067E7BE /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		2C0E86B92B1C541E0067E7BE /* PlayerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAssembly.swift; sourceTree = "<group>"; };
 		2C463D632B24CB69002FC3BF /* PlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				2CA493462B1A32F9007772F8 /* LaunchScreen.storyboard */,
 				2CA493492B1A32F9007772F8 /* Info.plist */,
+				2C06ED622B2C41AB00C44223 /* Constants.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				2CA493672B1A6183007772F8 /* TrackListViewModel.swift in Sources */,
 				2C0E86BA2B1C541E0067E7BE /* PlayerAssembly.swift in Sources */,
 				2C06ED522B28C25700C44223 /* TrackListRouter.swift in Sources */,
+				2C06ED632B2C41AB00C44223 /* Constants.swift in Sources */,
 				2CA493582B1A4A8A007772F8 /* TrackListTableViewCell.swift in Sources */,
 				2C06ED5E2B2B5AD800C44223 /* PlayerRouter.swift in Sources */,
 			);

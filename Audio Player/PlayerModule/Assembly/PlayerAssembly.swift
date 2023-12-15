@@ -5,7 +5,7 @@
 //  Created by Дмитрий Скок on 03.12.2023.
 //
 
-import UIKit
+import UIKit.UIViewController
 
 final class PlayerAssembly {
     static func build(currentTrackIndex: Int, track: Track, tracks: [Track]) -> UIViewController {

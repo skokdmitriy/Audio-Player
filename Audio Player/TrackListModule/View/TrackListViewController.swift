@@ -14,7 +14,8 @@ final class TrackListViewController: UIViewController {
         let tableview = UITableView()
         tableview.delegate = self
         tableview.dataSource = self
-        tableview.register(TrackListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableview.register(TrackListTableViewCell.self,
+                           forCellReuseIdentifier: Constants.cellIdentifier)
         tableview.backgroundColor = .white
         tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview
@@ -47,8 +48,7 @@ final class TrackListViewController: UIViewController {
     // MARK: - Private functions
 
     private func configure() {
-        title = "Music"
-        navigationItem.backButtonTitle = "Close"
+        title = Title.titleMain
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -72,7 +72,9 @@ extension TrackListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
+                                                       for: indexPath
+        ) as? TrackListTableViewCell else {
             return UITableViewCell()
         }
         let track = viewModel.tracks[indexPath.row]
@@ -81,7 +83,7 @@ extension TrackListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 58
+        return Constants.heightForRow
     }
 }
 

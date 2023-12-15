@@ -19,6 +19,8 @@ final class TrackListViewModel {
         self.router = router
         appendTrack()
     }
+    
+    // MARK: - Functions
 
     func tapOnTrack(indexPath: IndexPath) {
         let currentTrackIndex = indexPath.row

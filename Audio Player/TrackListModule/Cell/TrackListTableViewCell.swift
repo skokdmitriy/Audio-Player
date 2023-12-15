@@ -5,20 +5,21 @@
 //  Created by Дмитрий Скок on 02.12.2023.
 //
 
-import UIKit
+import UIKit.UITableViewCell
 
 final class TrackListTableViewCell: UITableViewCell {
-
+    // MARK: - Views
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 16)
+        label.font = Fonts.helveticaNeue
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var durationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 16)
+        label.font = Fonts.helveticaNeue
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -31,15 +32,18 @@ final class TrackListTableViewCell: UITableViewCell {
         configureLayout()
     }
 
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Functions
 
     func configureCell(_ data: Track) {
         titleLabel.text = data.artist + " - " + data.title
         durationLabel.text = data.duration
     }
+    
+    // MARK: - Private functions
 
     private func configureLayout() {
         addSubview(titleLabel)
