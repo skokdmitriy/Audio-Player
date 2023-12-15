@@ -6,15 +6,15 @@
 //
 
 import UIKit
-import AVFoundation
+import Combine
 
 final class PlayerViewController: UIViewController {
     // MARK: - Private properties
 
     private lazy var playerView = PlayerView()
-    private let player = AudioPlayerService.shared
+    private let playerService = PlayerService.shared
     private let viewModel: PlayerViewModel
-    private var trackTimer: Timer?
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
@@ -38,45 +38,89 @@ final class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureNavigationBar()
         configure()
-        playTrack(index: viewModel.currentTrackIndex)
-        time()
-    }
-
-    private func playTrack(index: Int) {
-        player.playTrack(currentTrackIndex: index)
-        player.currentTrackIndex = index
+        trackEnded()
+        addTarget()
     }
 
     // MARK: - Private methods
 
+    private func configureNavigationBar() {
+        let closeButton = UIBarButtonItem(customView: playerView.closeButtonView)
+        navigationItem.leftBarButtonItem = closeButton
+    }
+
     private func configure() {
-        view.backgroundColor = .white
+        binding()
         playerView.artistLabel.text = viewModel.track.artist
         playerView.titleLabel.text = viewModel.track.title
         playerView.durationTimeLabel.text = viewModel.track.duration
     }
 
-    func time () {
-        let interval = CMTime(value: 1, timescale: 1000)
-        player.player?.addPeriodicTimeObserver(forInterval: interval,
-                                               queue: DispatchQueue.main
-        ) { [weak self] time in
-            guard let self else {
-                return
+    private func binding() {
+        playerService.$currentTime
+            .receive(on: DispatchQueue.main)
+            .sink { currentTime in
+                self.playerView.currentTimeLabel.text = currentTime
             }
-            let minutes = time.seconds / 60
-            let seconds = Int(time.seconds) % 60
-            let minutesString = String(format: "%02d", Int(minutes))
-            let secondsString = String(format: "%02d", Int(seconds))
-            self.playerView.currentTimeLabel.text = "\(minutesString):\(secondsString)"
+            .store(in: &subscriptions)
 
-            if let duration = player.player?.currentItem?.duration {
-                let durationSeconds = CMTimeGetSeconds(duration)
-                let progressSeconds = CMTimeGetSeconds(time)
-                let progress = Float(progressSeconds / durationSeconds)
-                self.playerView.trackProgress.progress = progress
+        playerService.$progress
+            .receive(on: DispatchQueue.main)
+            .sink { progress in
+                self.playerView.trackProgress.progress = progress ?? 0
             }
-        }
+            .store(in: &subscriptions)
+    }
+
+    private func trackEnded() {
+        playerService.isTrackEnded
+            .sink { boolValue in
+                if boolValue {
+                    self.viewModel.nextTrack()
+                    self.configure()
+                }
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func addTarget() {
+        playerView.playButton.addTarget(self,
+                                        action: #selector(didTapPlayButton),
+                                        for: .touchUpInside
+        )
+        playerView.nextButton.addTarget(self,
+                                        action: #selector(didTapNextButton),
+                                        for: .touchUpInside
+        )
+        playerView.backButton.addTarget(self,
+                                        action: #selector(didTapBackButton),
+                                        for: .touchUpInside
+        )
+        playerView.closeButton.addTarget(self,
+                                         action: #selector(didTapСloseButton),
+                                         for: .touchUpInside
+        )
+    }
+
+    @objc private func didTapСloseButton() {
+        viewModel.popToRootViewController()
+    }
+
+    @objc private func didTapPlayButton() {
+        playerView.playButton.setImage(UIImage(systemName: viewModel.pauseTrack()), for: .normal)
+    }
+
+    @objc private func didTapNextButton() {
+        viewModel.nextTrack()
+        configure()
+        playerView.playButton.setImage(UIImage(systemName: Images.pause), for: .normal)
+    }
+
+    @objc private func didTapBackButton() {
+        viewModel.backTrack()
+        configure()
+        playerView.playButton.setImage(UIImage(systemName: Images.pause), for: .normal)
     }
 }

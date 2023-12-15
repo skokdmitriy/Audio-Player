@@ -11,11 +11,21 @@ final class TrackListViewModel {
     // MARK: - Properties
 
     var tracks: [Track] = []
-    
+    private let router: TrackListRouter?
+
     // MARK: - Initialization
 
-    init() {
+    init(router: TrackListRouter) {
+        self.router = router
         appendTrack()
+    }
+    
+    // MARK: - Functions
+
+    func tapOnTrack(indexPath: IndexPath) {
+        let currentTrackIndex = indexPath.row
+        let track = tracks[indexPath.row]
+        router?.showPlayer(currentTrackIndex: currentTrackIndex, track: track, tracks: tracks)
     }
 
     // MARK: - Private functions
@@ -40,6 +50,11 @@ final class TrackListViewModel {
                             artist: "One Republic",
                             duration: "04:18",
                             trackName: "track4")
+        )
+        tracks.append(Track(title: "Test",
+                            artist: "Track",
+                            duration: "00:12",
+                            trackName: "track5")
         )
     }
 }
